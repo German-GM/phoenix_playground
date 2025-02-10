@@ -92,7 +92,7 @@ defmodule FlightTracker.MessageBroadcaster do
       "specversion" => "1.0",
       "type" => "org.book.flighttracker.#{String.downcase(type)}",
       "source" => "radio_aggregator",
-      "id" => UUID.uuid4(),
+      "id" => Ecto.UUID.generate(),
       "datacontenttype" => "application/json",
       "time" => DateTime.utc_now() |> DateTime.to_iso8601(),
       "data" => data
