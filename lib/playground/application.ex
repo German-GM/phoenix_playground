@@ -17,12 +17,18 @@ defmodule Playground.Application do
       # Start a worker by calling: Playground.Worker.start_link(arg)
       # {Playground.Worker, arg},
       # Start to serve requests, typically the last entry
-      PlaygroundWeb.Endpoint
+      PlaygroundWeb.Endpoint,
+      {FlightTracker.FileInjector, ["./sample_cloudevents.json"]},
+      {FlightTracker.MessageBroadcaster, []},
+      {FlightTracker.CraftProjector, []},
+      {FlightTracker.FlightNotifier, "AMC421"}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: Playground.Supervisor]
+
+    opts = [strategy: :rest_for_one, name: Playground.Supervisor]
+    # opts = [strategy: :one_for_one, name: Playground.Supervisor]
     Supervisor.start_link(children, opts)
   end
 
