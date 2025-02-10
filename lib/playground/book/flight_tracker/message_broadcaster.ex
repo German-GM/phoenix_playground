@@ -7,6 +7,10 @@
 # Visit https://pragprog.com/titles/khpes for more book information.
 #---
 defmodule FlightTracker.MessageBroadcaster do
+  @moduledoc """
+  Después de ver los eventos en consola, se puede ver el projector de la nave de vuelo comercial AMC421
+  FlightTracker.CraftProjector.aircraft_by_callsign("AMC421")
+  """
   use GenStage
   require Logger
 
