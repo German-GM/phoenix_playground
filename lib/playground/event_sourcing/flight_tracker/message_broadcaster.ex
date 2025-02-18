@@ -8,6 +8,7 @@
 #---
 defmodule FlightTracker.MessageBroadcaster do
   @moduledoc """
+  Módulo principal en donde se disparan los eventos
   Después de ver los eventos en consola, se puede ver el projector de la nave de vuelo comercial AMC421
   FlightTracker.CraftProjector.aircraft_by_callsign("AMC421")
   """
