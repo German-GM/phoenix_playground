@@ -1,0 +1,73 @@
+/* This file is for your main application CSS */
+@import "./phoenix.css";
+
+html, body {
+  height: 100%;
+}
+
+.phx-click-loading {
+  opacity: 0.5;
+  transition: opacity 1s ease-out;
+}
+
+.phx-disconnected{
+  cursor: wait;
+}
+.phx-disconnected *{
+  pointer-events: none;
+}
+
+.sorting-header {
+  cursor: pointer;
+}
+
+.pagination {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.page-stepper {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  cursor: pointer;
+  margin-bottom: 2rem;
+}
+
+.pagination-button {
+  border: 1px solid rgb(100, 100, 100);
+  border-radius: 5px;
+  min-width: 3rem;
+  text-align: center;
+  margin: 3px 2px;
+  color: rgb(100, 100, 100);
+  font-weight: 400;
+}
+
+.pagination-button.active {
+  border: 1px solid #000;
+  color: #fff;
+  background-color: #000;
+}
+
+#table-filter .row {
+  display: flex;
+  align-items: flex-end;
+}
+
+#table-filter .row div {
+  margin-right: 1rem;
+}
+
+#table-filter .btn-submit {
+  margin-bottom: 0.5rem;
+}
+
+.w-30 {
+  width: 30%;
+}
+
+.w-15 {
+  width: 15%;
+}

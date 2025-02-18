@@ -1,0 +1,37 @@
+<div id="table-container">
+  
+  <.live_component module={MeowWeb.MeerkatLive.FilterComponent} id="filter" filter={@filter} />
+
+  <table>
+    <thead>
+      <tr>
+        <th>
+          <.live_component 
+            module={MeowWeb.MeerkatLive.SortingComponent} 
+            id={"sorting-id"}
+            key={:id} 
+            sorting={@sorting} />
+        </th>
+        <th>
+          <.live_component module={MeowWeb.MeerkatLive.SortingComponent} id={"sorting-name"} key={:name} sorting={@sorting} />
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= if assigns[:error_message] do %>
+        <tr>
+          <td colspan="6"><%= @error_message %></td>
+        </tr>
+      <% else %>
+        <%= for meerkat <- @meerkats do %>
+          <tr data-test-id={meerkat.id}>
+            <td><%= meerkat.id %></td>
+            <td><%= meerkat.name %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+  
+  <.live_component module={MeowWeb.MeerkatLive.PaginationComponent} id="pagination" pagination={@pagination} />
+</div>
