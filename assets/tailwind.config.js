@@ -8,14 +8,34 @@ const path = require("path")
 module.exports = {
   content: [
     "./js/**/*.js",
-    "../lib/playground_web.ex",
-    "../lib/playground_web/**/*.*ex"
+    "../lib/lynxweb_web.ex",
+    "../lib/lynxweb_web/**/*.*ex"
   ],
   theme: {
     extend: {
       colors: {
-        brand: "#FD4F00",
-      }
+        "neutral-50": "rgb(var(--color-neutral-50))",
+        "neutral-100": "rgb(var(--color-neutral-100))",
+        "neutral-200": "rgb(var(--color-neutral-200))",
+        "neutral-300": "rgb(var(--color-neutral-300))",
+        "neutral-400": "rgb(var(--color-neutral-400))",
+        "neutral-500": "rgb(var(--color-neutral-500))",
+        "neutral-600": "rgb(var(--color-neutral-600))",
+        "neutral-700": "rgb(var(--color-neutral-700))",
+        "neutral-800": "rgb(var(--color-neutral-800))",
+        "neutral-900": "rgb(var(--color-neutral-900))",
+        'green-light': '#81c784', // Definir el color personalizado,
+        "primary-subtle-light": "rgb(var(--color-primary-50))",
+        "primary-subtle":       "rgb(var(--color-primary-100))",
+        "primary-mid-light":    "rgb(var(--color-primary-200))",
+        "primary-light":        "rgb(var(--color-primary-300))",
+        "primary":              "rgb(var(--color-primary-500))",
+        "primary-dark":         "rgb(var(--color-primary-700))",
+        "primary-contrast":     "rgb(var(--color-primary-contrast) / <alpha-value>)",
+
+        "card": "rgb(var(--color-card) / <alpha-value>)",
+        "app":  "rgb(var(--color-app) / <alpha-value>)", 
+      },
     },
   },
   plugins: [
@@ -25,6 +45,7 @@ module.exports = {
     //
     //     <div class="phx-click-loading:animate-ping">
     //
+    plugin(({addVariant}) => addVariant("phx-no-feedback", [".phx-no-feedback&", ".phx-no-feedback &"])),
     plugin(({addVariant}) => addVariant("phx-click-loading", [".phx-click-loading&", ".phx-click-loading &"])),
     plugin(({addVariant}) => addVariant("phx-submit-loading", [".phx-submit-loading&", ".phx-submit-loading &"])),
     plugin(({addVariant}) => addVariant("phx-change-loading", [".phx-change-loading&", ".phx-change-loading &"])),
@@ -33,13 +54,12 @@ module.exports = {
     // See your `CoreComponents.icon/1` for more information.
     //
     plugin(function({matchComponents, theme}) {
-      let iconsDir = path.join(__dirname, "../deps/heroicons/optimized")
+      let iconsDir = path.join(__dirname, "./vendor/heroicons/optimized")
       let values = {}
       let icons = [
         ["", "/24/outline"],
         ["-solid", "/24/solid"],
-        ["-mini", "/20/solid"],
-        ["-micro", "/16/solid"]
+        ["-mini", "/20/solid"]
       ]
       icons.forEach(([suffix, dir]) => {
         fs.readdirSync(path.join(iconsDir, dir)).forEach(file => {
@@ -50,12 +70,6 @@ module.exports = {
       matchComponents({
         "hero": ({name, fullPath}) => {
           let content = fs.readFileSync(fullPath).toString().replace(/\r?\n|\r/g, "")
-          let size = theme("spacing.6")
-          if (name.endsWith("-mini")) {
-            size = theme("spacing.5")
-          } else if (name.endsWith("-micro")) {
-            size = theme("spacing.4")
-          }
           return {
             [`--hero-${name}`]: `url('data:image/svg+xml;utf8,${content}')`,
             "-webkit-mask": `var(--hero-${name})`,
@@ -64,8 +78,8 @@ module.exports = {
             "background-color": "currentColor",
             "vertical-align": "middle",
             "display": "inline-block",
-            "width": size,
-            "height": size
+            "width": theme("spacing.5"),
+            "height": theme("spacing.5")
           }
         }
       }, {values})

@@ -1,32 +1,408 @@
-<header class="px-4 sm:px-6 lg:px-8">
-  <div class="flex items-center justify-between border-b border-zinc-100 py-3 text-sm">
-    <div class="flex items-center gap-4">
-      <a href="/">
-        <img src={~p"/images/logo.svg"} width="36" />
-      </a>
-      <p class="bg-brand/5 text-brand rounded-full px-2 font-medium leading-6">
-        v{Application.spec(:phoenix, :vsn)}
-      </p>
+<header class="relative">
+  <nav aria-label="Top">
+    <!-- Secondary navigation -->
+    <div class="bg-white shadow-sm border-b border-gray-200">
+      <div class="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
+        <div class="">
+          <div class="flex h-16 items-center justify-between">
+            <!-- Logo (lg+) -->
+            <div class="hidden lg:flex lg:items-center mr-8">
+              <.link navigate={~p"/landing"}>
+                <.app_logo
+                  class="h-10 w-auto aspect-auto"
+                  src={~p"/images/#{ThemeManager.get_logo()}"}
+                />
+              </.link>
+            </div>
+            <!-- Main nav menu -->
+            <.tab_menu id="main-nav-menu">
+              <:tab title="Captación">
+                <div :if={UserPermissions.tarjetas_debito?(@user_permissions)}>
+                  <p class="font-medium text-gray-900">
+                    Tarjetas de débito
+                  </p>
+
+                  <ul
+                    role="list"
+                    aria-labelledby="desktop-featured-heading-0"
+                    class="mt-6 sm:mt-4 space-y-6 sm:space-y-4"
+                  >
+                    <li :if={UserPermissions.admin_tarjetas?(@user_permissions)} class="flex">
+                      <.link navigate={~p"/debito"} class="hover:text-gray-800">
+                        Administración de Tarjetas
+                      </.link>
+                    </li>
+
+                    <li
+                      :if={
+                        UserPermissions.embozado?(@user_permissions) &&
+                          Env.dock_one_service?()
+                      }
+                      class="flex"
+                    >
+                      <.link navigate={~p"/embozado"} class="hover:text-gray-800">
+                        Tarjetas Embozadas
+                      </.link>
+                    </li>
+
+                    <li
+                      :if={
+                        UserPermissions.cuenta_concentradora?(@user_permissions) &&
+                          Env.dock_one_service?()
+                      }
+                      class="flex"
+                    >
+                      <.link
+                        navigate={~p"/concentrating_account_dock_one"}
+                        class="hover:text-gray-800"
+                      >
+                        Cuenta concentradora
+                      </.link>
+                    </li>
+                  </ul>
+                </div>
+              </:tab>
+
+              <:tab :if={UserPermissions.reportes?(@user_permissions)} title="Reportes">
+                <div>
+                  <%!-- <p class="font-medium text-gray-900">
+                    SECTION
+                  </p> --%>
+
+                  <ul
+                    role="list"
+                    aria-labelledby="desktop-featured-heading-0"
+                    class="space-y-6 sm:space-y-4"
+                  >
+                    <li class="flex">
+                      <.link navigate={~p"/reportes"} class="hover:text-gray-800">
+                        Generales
+                      </.link>
+                    </li>
+                  </ul>
+                </div>
+              </:tab>
+
+              <:tab title="Configuración">
+                <div :if={UserPermissions.tarjetas_debito?(@user_permissions)}>
+                  <p class="font-medium text-gray-900">
+                    Tarjetas de débito
+                  </p>
+
+                  <ul
+                    role="list"
+                    aria-labelledby="desktop-featured-heading-0"
+                    class="mt-6 sm:mt-4 space-y-6 sm:space-y-4"
+                  >
+                    <li
+                      :if={
+                        UserPermissions.cuenta_concentradora?(@user_permissions) &&
+                          Env.dock_one_service?()
+                      }
+                      class="flex"
+                    >
+                      <.link
+                        navigate={~p"/concentrating_account_dock_one"}
+                        class="hover:text-gray-800"
+                      >
+                        Cuenta concentradora
+                      </.link>
+                    </li>
+                    <li class="flex">
+                      <.link navigate={~p"/configuration"} class="hover:text-gray-800">
+                        Parámetros Generales del Sistema
+                      </.link>
+                    </li>
+                  </ul>
+
+                  <%= if Env.dev_env?() do %>
+                    <p class="font-medium text-gray-900 mt-6">
+                      Documentos
+                    </p>
+
+                    <ul
+                      role="list"
+                      aria-labelledby="desktop-featured-heading-0"
+                      class="mt-6 sm:mt-4 space-y-6 sm:space-y-4"
+                    >
+                      <li class="flex">
+                        <.link navigate={~p"/catalogo_documentos"} class="hover:text-gray-800">
+                          Catálogo de documentos
+                        </.link>
+                      </li>
+                    </ul>
+                  <% end %>
+                </div>
+              </:tab>
+
+              <%!-- <:tab title="Utilerías">
+                <ul role="list" aria-labelledby="desktop-featured-heading-0" class="space-y-6 sm:space-y-4">
+                  <li class="flex">
+                    <a href="#" class="hover:text-gray-800">
+                      Reiniciar el cálculo de cartera al día
+                    </a>
+                  </li>
+                  <li class="flex">
+                    <a href="#" class="hover:text-gray-800">
+                      Ajustar garantía líquida
+                    </a>
+                  </li>
+                  <li class="flex">
+                    <a href="#" class="hover:text-gray-800">
+                      Traspaso masivo de ahorros
+                    </a>
+                  </li>
+                  <li class="flex">
+                    <a href="#" class="hover:text-gray-800">
+                      Procesar apoyos por defunción
+                    </a>
+                  </li>
+                  <li class="flex">
+                    <a href="#" class="hover:text-gray-800">
+                      Reasignar folio certificado partes sociales
+                    </a>
+                  </li>
+                </ul>
+
+                <ul role="list" aria-labelledby="desktop-featured-heading-0" class="space-y-6 sm:space-y-4">
+                  <li class="flex">
+                    <a href="#" class="hover:text-gray-800">
+                      Pago automático de servicios con cargo al ahorro
+                    </a>
+                  </li>
+                  <li class="flex">
+                    <a href="#" class="hover:text-gray-800">
+                      Calificar socios de alto riesgo
+                    </a>
+                  </li>
+                  <li class="flex">
+                    <a href="#" class="hover:text-gray-800">
+                      Rectificar RFC y CURP (Todos los socios)
+                    </a>
+                  </li>
+                  <li class="flex">
+                    <a href="#" class="hover:text-gray-800">
+                      SIC AGOSTO 2022
+                    </a>
+                  </li>
+                </ul>
+              </:tab> --%>
+
+              <%!-- <:tab title="Consultas">
+                <div>
+                  <p class="font-medium text-gray-900">
+                    Socios
+                  </p>
+                  <ul role="list" aria-labelledby="desktop-featured-heading-0" class="mt-6 sm:mt-4 space-y-6 sm:space-y-4">
+                    <li class="flex">
+                      <a href="#" class="hover:text-gray-800">
+                        Catálogo de socios
+                      </a>
+                    </li>
+                    <li class="flex">
+                      <a href="#" class="hover:text-gray-800">
+                        Catálogo de menores
+                      </a>
+                    </li>
+                    <li class="flex">
+                      <a href="#" class="hover:text-gray-800">
+                        Catálogo de Prospectos
+                      </a>
+                    </li>
+                    <li class="flex">
+                      <a href="#" class="hover:text-gray-800">
+                        Estado de cuentas
+                      </a>
+                    </li>
+                    <li class="flex">
+                      <a href="#" class="hover:text-gray-800">
+                        Socios excluidos
+                      </a>
+                    </li>
+                    <li class="flex">
+                      <a href="#" class="hover:text-gray-800">
+                        Etc...
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+
+                <div>
+                  <p class="font-medium text-gray-900">
+                    Crédito
+                  </p>
+                  <ul role="list" aria-labelledby="desktop-featured-heading-0" class="mt-6 sm:mt-4 space-y-6 sm:space-y-4">
+                    <li class="flex">
+                      <a href="#" class="hover:text-gray-800">
+                        Cartera a la fecha
+                      </a>
+                    </li>
+                    <li class="flex">
+                      <a href="#" class="hover:text-gray-800">
+                        Créditos entregados
+                      </a>
+                    </li>
+                    <li class="flex">
+                      <a href="#" class="hover:text-gray-800">
+                        Solicitudes de credito
+                      </a>
+                    </li>
+                    <li class="flex">
+                      <a href="#" class="hover:text-gray-800">
+                        Créditos pagados
+                      </a>
+                    </li>
+                    <li class="flex">
+                      <a href="#" class="hover:text-gray-800">
+                        Cartera con generales del socio
+                      </a>
+                    </li>
+                    <li class="flex">
+                      <a href="#" class="hover:text-gray-800">
+                        Etc...
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+
+                <div>
+                  <p class="font-medium text-gray-900">
+                    Captación
+                  </p>
+                  <ul role="list" aria-labelledby="desktop-featured-heading-0" class="mt-6 sm:mt-4 space-y-6 sm:space-y-4">
+                    <li class="flex">
+                      <a href="#" class="hover:text-gray-800">
+                        Captación a la Fecha
+                      </a>
+                    </li>
+                    <li class="flex">
+                      <a href="#" class="hover:text-gray-800">
+                        IDE Informativo mensual/anual
+                      </a>
+                    </li>
+                    <li class="flex">
+                      <a href="#" class="hover:text-gray-800">
+                        Ahorro Ordinario Disponible
+                      </a>
+                    </li>
+                    <li class="flex">
+                      <a href="#" class="hover:text-gray-800">
+                        Catálogo de socios con integracion de capital social
+                      </a>
+                    </li>
+                    <li class="flex">
+                      <a href="#" class="hover:text-gray-800">
+                        Promociones entregadas
+                      </a>
+                    </li>
+                    <li class="flex">
+                      <a href="#" class="hover:text-gray-800">
+                        Etc...
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+
+                <div>
+                  <p class="font-medium text-gray-900">
+                    Operación
+                  </p>
+                  <ul role="list" aria-labelledby="desktop-featured-heading-0" class="mt-6 sm:mt-4 space-y-6 sm:space-y-4">
+                    <li class="flex">
+                      <a href="#" class="hover:text-gray-800">
+                        Sucursales bloqueadas
+                      </a>
+                    </li>
+                    <li class="flex">
+                      <a href="#" class="hover:text-gray-800">
+                        Faltantes/Sobrantes
+                      </a>
+                    </li>
+                    <li class="flex">
+                      <a href="#" class="hover:text-gray-800">
+                        Operaciones con cheque
+                      </a>
+                    </li>
+                    <li class="flex">
+                      <a href="#" class="hover:text-gray-800">
+                        Operaciones con ficha bancaria
+                      </a>
+                    </li>
+                    <li class="flex">
+                      <a href="#" class="hover:text-gray-800">
+                        Depósitos cuenta convenio
+                      </a>
+                    </li>
+                    <li class="flex">
+                      <a href="#" class="hover:text-gray-800">
+                        Etc...
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </:tab> --%>
+            </.tab_menu>
+
+            <div class="flex flex-1 items-center justify-end">
+              <div class="flex space-x-4 items-center">
+                <%!-- <div class="flex">
+                    <a href="#" class="-m-2 p-2 text-gray-400 hover:text-gray-500">
+                      <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                      </svg>
+                    </a>
+                  </div> --%>
+
+                <.dropdown id="drop1" position="bottom-left">
+                  <%!-- <:img src={~p"/images/lynx_logo.svg"} /> --%>
+                  <%!-- <:title>
+                    Sesión activa
+                  </:title> --%>
+
+                  <:title>
+                    <%= case Lynxweb.ApiManager.CardServices.LynxBrain.SucursalesClient.get_sucursal_name_by_id(
+                               @current_user.idsucursal,
+                               Lynxweb.ApiManager.LynxServices.GenServerCatalogs.get_sucursales(
+                                 @idusuario
+                               )
+                             ) do
+                      {:error, "Sucursal no encontrada"} -> "sucursal_desconocida"
+                      {:ok, nombre} -> nombre
+                    end %>
+                  </:title>
+
+                  <:subtitle>
+                    <%= @current_user.email %>
+                  </:subtitle>
+
+                  <%!-- <:icon>
+                      <.icon name="hero-user" />
+                    </:icon> --%>
+
+                  <%!-- <:link href="#">
+                      <.icon name="hero-adjustments-horizontal" class="mr-3 text-gray-400 group-hover:text-gray-500" />
+                      Configuración
+                    </:link> --%>
+
+                  <:link href={~p"/log_out"} method="delete">
+                    <.icon
+                      name="hero-arrow-right-on-rectangle"
+                      class="mr-3 text-gray-400 group-hover:text-gray-500"
+                    /> Cerrar sesión
+                  </:link>
+                </.dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="flex items-center gap-4 font-semibold leading-6 text-zinc-900">
-      <a href="https://twitter.com/elixirphoenix" class="hover:text-zinc-700">
-        @elixirphoenix
-      </a>
-      <a href="https://github.com/phoenixframework/phoenix" class="hover:text-zinc-700">
-        GitHub
-      </a>
-      <a
-        href="https://hexdocs.pm/phoenix/overview.html"
-        class="rounded-lg bg-zinc-100 px-2 py-1 hover:bg-zinc-200/80"
-      >
-        Get Started <span aria-hidden="true">&rarr;</span>
-      </a>
-    </div>
-  </div>
+  </nav>
 </header>
-<main class="px-4 py-20 sm:px-6 lg:px-8">
-  <div class="mx-auto max-w-2xl">
-    <.flash_group flash={@flash} />
-    {@inner_content}
-  </div>
+
+<main class="max-w-screen-2xl mx-auto p-2 sm:px-4 sm:py-4 lg:px-6 lg:py-6">
+  <.flash_group flash={@flash} />
+  <.breadcrumb_navigator />
+
+  <%= @inner_content %>
 </main>

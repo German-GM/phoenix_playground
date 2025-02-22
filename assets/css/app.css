@@ -1,5 +1,113 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+@import "./themes";
 
 /* This file is for your main application CSS */
+.tab-btn {
+  @apply inline-flex items-center border-b-2 border-transparent text-sm font-medium text-gray-500 hover:border-gray-400 hover:text-gray-800 transition-colors duration-200 ease-out;
+
+  &.active {
+    @apply border-primary text-gray-800;
+  }
+  &.inactive {
+    @apply border-transparent text-gray-500 hover:border-gray-400 hover:text-gray-800;
+  }
+}
+
+.form-card {
+  @apply rounded-md space-y-8 bg-white p-8 shadow-sm shadow-neutral-200 w-full max-w-sm;
+}
+
+.btn {
+  @apply text-neutral-800 bg-white border border-neutral-300/30 shadow-sm shadow-neutral-400/20 active:shadow-inner active:bg-gray-100 hover:bg-gray-50;
+
+  &.btn-primary {
+    @apply bg-primary text-primary-contrast shadow-neutral-400/40 hover:bg-primary-light active:bg-primary;
+  }
+
+  &.btn-secondary {
+    @apply bg-neutral-500 text-white shadow-neutral-400/40 hover:bg-neutral-400 active:bg-neutral-500;
+  }
+
+  &.btn-danger {
+    @apply bg-red-600 text-white shadow-neutral-400/40 hover:bg-red-500 active:bg-red-600;
+  }
+
+  &:disabled {
+    @apply cursor-default !bg-neutral-100/50 !text-neutral-500/75 border-transparent shadow-none;
+  }
+}
+
+.accordion-close {
+  @apply h-0 opacity-0 m-0 p-0 overflow-hidden;
+}
+
+.dragging{
+  @apply bg-gray-200 opacity-70;
+}
+
+/* Estilo para las columnas sobre las que se pasa */
+.drag-over{
+  @apply bg-gray-300;
+}
+
+.fade-in {
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.link-style {
+  @apply disabled:text-gray-400 disabled:no-underline font-semibold text-indigo-600 hover:text-indigo-500 hover:underline;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0.6;
+    transform: translateX(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+label {
+  /* Clases aplicadas para el label que tenga input hijo tipo checkbox o radio */
+  &:has(button.custom-switch), 
+  &:has(input[type="checkbox"]), 
+  &:has(input[type="radio"]),
+  /* Clases aplicadas para el input tipo checkbox o radio que sea hijo de label */
+  & > button.custom-switch, 
+  & > input[type="checkbox"], 
+  & > input[type="radio"] {
+    @apply cursor-pointer;
+  }
+
+  &:has(button.custom-switch:disabled),
+  &:has(input[type="checkbox"]:disabled), 
+  &:has(input[type="radio"]:disabled),
+  & > button.custom-switch:disabled, 
+  & > input[type="checkbox"]:disabled, 
+  & > input[type="radio"]:disabled {
+    @apply cursor-default;
+  }
+}
+
+input, 
+textarea {
+  @apply !bg-app !rounded-md !border-transparent;
+
+  &[type="checkbox"], 
+  &[type="radio"] {
+    @apply !bg-neutral-100;
+  }
+
+  &[type="checkbox"]:checked, 
+  &[type="radio"]:checked {
+    @apply !bg-primary;
+  }
+}
+
+input:disabled, textarea:disabled {
+  @apply text-zinc-500;
+}
